@@ -3,4 +3,11 @@
     <string name="email">Email</string>
     <string name="lozinka">Lozinka</string>
     <string name="prijavi_se">Prijavi se</string>
+    <string name="nemate_nalog_registrujte_se">Nemate nalog? Registrujte se.</string>
+    <string name="prijava">Prijava</string>
+    <string name="ime_i_prezime">Ime i prezime</string>
+    <string name="broj_telefona">Broj telefona</string>
+    <string name="registracija">Registracija</string>
+    <string name="registruj_se">Registruj se</string>
+    <string name="ve_imate_nalog_prijavite_se">Već imate nalog? Prijavite se.</string>
 </resources>

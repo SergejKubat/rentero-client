@@ -12,8 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:gravity="center"
-        android:text="Prijava"
+        android:fontFamily="@font/poppinsbold"
+        android:text="@string/prijava"
         android:textSize="30sp"
+        android:textColor="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,10 +46,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-            </com.google.android.material.textfield.TextInputEditText>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsmedium"
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,15 +69,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword">
-
-
-            </com.google.android.material.textfield.TextInputEditText>
+                android:inputType="textPassword"
+                android:fontFamily="@font/poppinsmedium" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <ProgressBar
-            android:id="@+id/progress"
+            android:id="@+id/loginProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -90,19 +89,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:paddingHorizontal="20dp"
+            android:fontFamily="@font/poppinsmedium"
             android:text="@string/prijavi_se"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress" />
+            app:layout_constraintTop_toBottomOf="@+id/loginProgress" />
 
         <TextView
+            android:id="@+id/signUpText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:text="Nemate nalog? Registrujte se."
+            android:text="@string/nemate_nalog_registrujte_se"
+            android:fontFamily="@font/poppinsmedium"
             android:textSize="16sp"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/linkColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logInBtn" />
