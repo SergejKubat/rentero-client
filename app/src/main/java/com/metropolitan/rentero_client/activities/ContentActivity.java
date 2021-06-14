@@ -1,40 +1,38 @@
 package com.metropolitan.rentero_client.activities;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.metropolitan.rentero_client.R;
-import com.metropolitan.rentero_client.utils.AuthUtil;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class ContentActivity extends AppCompatActivity {
 
-    private TextView tokenView;
-    private Button signOutBtn;
+    private BottomNavigationView bottomNavigationView;
+    private NavHostFragment navHostFragment;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
-        tokenView = findViewById(R.id.token);
-        signOutBtn = findViewById(R.id.signOutBtn);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        navController = navHostFragment.getNavController();
 
-        AuthUtil authUtil = new AuthUtil(getApplicationContext());
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.searchFragment,
+                R.id.reservationFragment,
+                R.id.companyFragment,
+                R.id.FAQFragment,
+                R.id.accountFragment).build();
 
-        String token = authUtil.getToken();
-
-        tokenView.setText(token);
-
-        signOutBtn.setOnClickListener(v -> {
-            authUtil.removeToken();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
     }
 }
