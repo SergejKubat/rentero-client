@@ -1,4 +1,4 @@
-package com.metropolitan.rentero_client;
+package com.metropolitan.rentero_client.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.metropolitan.rentero_client.R;
 
 /**
  * A simple {@link Fragment} subclass.

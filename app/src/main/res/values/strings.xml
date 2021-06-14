@@ -12,4 +12,12 @@
     <string name="ve_imate_nalog_prijavite_se">Već imate nalog? Prijavite se.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bez_depozita">Bez depozita</string>
+    <string name="kubikaza">Kubikaza</string>
+    <string name="broj_vrata">Broj vrata</string>
+    <string name="broj_putnika">Broj putnika</string>
+    <string name="brand_model">Brand Model</string>
+    <string name="opis">Opis</string>
+    <string name="automobil">Automobil</string>
+    <string name="cena">Cena</string>
 </resources>
