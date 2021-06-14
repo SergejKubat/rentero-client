@@ -5,6 +5,7 @@ import com.metropolitan.rentero_client.R;
 import com.metropolitan.rentero_client.model.AuthRequest;
 import com.metropolitan.rentero_client.model.JWTAuthResponse;
 import com.metropolitan.rentero_client.service.AuthService;
+import com.metropolitan.rentero_client.utils.AuthUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,11 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,15 +73,30 @@ public class LoginActivity extends AppCompatActivity {
         jwtResponse.enqueue(new Callback<JWTAuthResponse>() {
             @Override
             public void onResponse(Call<JWTAuthResponse> call, Response<JWTAuthResponse> response) {
-                Toast.makeText(getApplicationContext(), "Prijava uspešna!", Toast.LENGTH_LONG).show();
-                // System.out.println("JWT token: " + response.body().getAccessToken());
-                // @TODO: Save token in shared preferences and redirect to main activity
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Prijava uspešna!", Toast.LENGTH_LONG).show();
+
+                    String token = response.body().getAccessToken();
+
+                    AuthUtil authUtil = new AuthUtil(getApplicationContext());
+                    authUtil.storeToken(token);
+
+                    Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    try {
+                        JSONObject errorObject = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getApplicationContext(), errorObject.getString("message"), Toast.LENGTH_LONG).show();
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<JWTAuthResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                // @TODO: Create error messages
             }
         });
     }
@@ -83,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
     public void redirectToSignUp() {
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
-        finish();
     }
 
 }

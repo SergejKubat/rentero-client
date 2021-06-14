@@ -7,8 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.metropolitan.rentero_client.activities.ContentActivity;
 import com.metropolitan.rentero_client.activities.LoginActivity;
-import com.metropolitan.rentero_client.activities.SignUpActivity;
+import com.metropolitan.rentero_client.utils.AuthUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +28,16 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
+        AuthUtil authUtil = new AuthUtil(getApplicationContext());
+
+        if (authUtil.isTokenExpired()) {
+            authUtil.removeToken();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+            startActivity(intent);
+        }
         finish();
 
     }
