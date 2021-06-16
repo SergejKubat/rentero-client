@@ -51,7 +51,6 @@ public class SearchFragment extends Fragment {
         carRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         carAdapter = new CarAdapter(view.getContext(), car -> {
-            //Toast.makeText(getActivity().getApplicationContext(), "Id od automobila je: " + car.getId(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getActivity().getApplicationContext(), CarDetailsActivity.class);
             intent.putExtra("carId", car.getId());
             startActivity(intent);
