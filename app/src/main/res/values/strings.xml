@@ -20,4 +20,6 @@
     <string name="opis">Opis</string>
     <string name="automobil">Automobil</string>
     <string name="cena">Cena</string>
+    <string name="karakteristike">KARAKTERISTIKE</string>
+    <string name="rezervacija">REZERVACIJA</string>
 </resources>

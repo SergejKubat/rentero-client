@@ -1,5 +1,6 @@
 package com.metropolitan.rentero_client.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.metropolitan.rentero_client.R;
+import com.metropolitan.rentero_client.activities.CarDetailsActivity;
+import com.metropolitan.rentero_client.activities.SignUpActivity;
 import com.metropolitan.rentero_client.adapter.CarAdapter;
 import com.metropolitan.rentero_client.model.Car;
 import com.metropolitan.rentero_client.service.CarService;
@@ -37,7 +40,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -49,7 +51,10 @@ public class SearchFragment extends Fragment {
         carRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         carAdapter = new CarAdapter(view.getContext(), car -> {
-            Toast.makeText(getActivity().getApplicationContext(), "Id od automobila je: " + car.getId(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity().getApplicationContext(), "Id od automobila je: " + car.getId(), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getActivity().getApplicationContext(), CarDetailsActivity.class);
+            intent.putExtra("carId", car.getId());
+            startActivity(intent);
         });
         carRecyclerView.setAdapter(carAdapter);
 

@@ -42,7 +42,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.MyViewHolder> {
         holder.carCapacity.setText(String.valueOf(carsList.get(position).getCapacity()) + " putnika");
         holder.carNumberOfDoors.setText(String.valueOf(carsList.get(position).getDoors()) + " vrata");
         holder.carEngineSize.setText(String.valueOf(carsList.get(position).getEngineSize()) + " kubika");
-        holder.carPrice.setText(String.valueOf(String.format("%.2f", carsList.get(position).getPricePerDay())) + "€ / dan");
+        holder.carPrice.setText(String.format("%.2f", carsList.get(position).getPricePerDay()) + "€ / dan");
         Picasso.get()
                 .load(carsList.get(position).getMainImageUrl())
                 .placeholder(R.drawable.ic_baseline_image_24)
