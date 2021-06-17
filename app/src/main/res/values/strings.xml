@@ -22,4 +22,6 @@
     <string name="cena">Cena</string>
     <string name="karakteristike">KARAKTERISTIKE</string>
     <string name="rezervacija">REZERVACIJA</string>
+    <string name="company">Company</string>
+    <string name="company_image">Company image</string>
 </resources>
