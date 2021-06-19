@@ -5,6 +5,7 @@ import com.metropolitan.rentero_client.R;
 import com.metropolitan.rentero_client.model.AuthRequest;
 import com.metropolitan.rentero_client.model.JWTAuthResponse;
 import com.metropolitan.rentero_client.service.AuthService;
+import com.metropolitan.rentero_client.utils.AppConstants;
 import com.metropolitan.rentero_client.utils.AuthUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView signUpText;
 
     private Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.2.8:8080/api/auth/")
+            .baseUrl(AppConstants.API_URL + "auth/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

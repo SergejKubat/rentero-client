@@ -18,6 +18,7 @@ import com.metropolitan.rentero_client.activities.SignUpActivity;
 import com.metropolitan.rentero_client.adapter.CarAdapter;
 import com.metropolitan.rentero_client.model.Car;
 import com.metropolitan.rentero_client.service.CarService;
+import com.metropolitan.rentero_client.utils.AppConstants;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class SearchFragment extends Fragment {
     private CarAdapter carAdapter;
 
     private Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.2.8:8080/api/")
+            .baseUrl(AppConstants.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

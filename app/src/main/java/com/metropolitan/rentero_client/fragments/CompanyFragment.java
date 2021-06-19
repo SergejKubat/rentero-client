@@ -15,6 +15,7 @@ import com.metropolitan.rentero_client.R;
 import com.metropolitan.rentero_client.adapter.CompanyAdapter;
 import com.metropolitan.rentero_client.model.Company;
 import com.metropolitan.rentero_client.service.CompanyService;
+import com.metropolitan.rentero_client.utils.AppConstants;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class CompanyFragment extends Fragment {
     private CompanyAdapter companyAdapter;
 
     private Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.2.8:8080/api/")
+            .baseUrl(AppConstants.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

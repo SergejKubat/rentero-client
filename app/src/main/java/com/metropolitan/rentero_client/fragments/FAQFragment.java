@@ -3,64 +3,65 @@ package com.metropolitan.rentero_client.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.metropolitan.rentero_client.R;
+import com.metropolitan.rentero_client.adapter.FAQAdapter;
+import com.metropolitan.rentero_client.model.Question;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FAQFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class FAQFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FAQFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FAQFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FAQFragment newInstance(String param1, String param2) {
-        FAQFragment fragment = new FAQFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private RecyclerView faqRecyclerView;
+    private FAQAdapter faqAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_f_a_q, container, false);
+        View view = inflater.inflate(R.layout.fragment_f_a_q, container, false);
+
+        faqRecyclerView = view.findViewById(R.id.questionsList);
+        faqRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        faqAdapter = new FAQAdapter(view.getContext());
+        faqRecyclerView.setAdapter(faqAdapter);
+
+        return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrieveFAQ();
+    }
+
+    private void retrieveFAQ() {
+
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("Naslov 1",
+                "Nulla et sem pharetra, laoreet dolor ac, efficitur sapien. Aliquam mattis enim sit amet viverra vehicula. In hac habitasse platea dictumst?",
+                "Vivamus accumsan dolor a faucibus placerat. Nulla finibus tempor massa, quis lacinia nunc egestas sit amet. Nulla bibendum ligula risus."));
+        questions.add(new Question("Naslov 2",
+                "Pellentesque ante quam, vehicula at odio pharetra, aliquam lobortis nisi. Vestibulum hendrerit fringilla porttitor.",
+                "Vestibulum hendrerit elit eu turpis ultrices malesuada. Fusce placerat gravida metus et hendrerit."));
+        questions.add(new Question("Naslov 3",
+                "Mauris laoreet est a arcu luctus faucibus. In placerat mattis velit, eu tempus eros vulputate et. Morbi non eros nec quam iaculis vehicula.",
+                "Donec vel egestas nibh, sed hendrerit sapien. Nullam ut mattis arcu, ac tempus elit. Aenean nibh sapien, egestas id sapien in, iaculis vestibulum massa."));
+
+        faqAdapter.setTasks(questions);
+
+    }
+
 }

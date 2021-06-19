@@ -3,6 +3,7 @@ package com.metropolitan.rentero_client.activities;
 import com.metropolitan.rentero_client.R;
 import com.metropolitan.rentero_client.model.Car;
 import com.metropolitan.rentero_client.service.CarService;
+import com.metropolitan.rentero_client.utils.AppConstants;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class CarDetailsActivity extends AppCompatActivity {
             carFuel, carPrice, carEngineSize, carHp, carGearStick, carYear;
 
     private Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.2.8:8080/api/")
+            .baseUrl(AppConstants.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
