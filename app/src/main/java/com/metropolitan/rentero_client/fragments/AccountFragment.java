@@ -1,5 +1,6 @@
 package com.metropolitan.rentero_client.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,10 +12,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.auth0.android.jwt.JWT;
 import com.metropolitan.rentero_client.R;
+import com.metropolitan.rentero_client.activities.LoginActivity;
 import com.metropolitan.rentero_client.model.User;
 import com.metropolitan.rentero_client.service.UserService;
 import com.metropolitan.rentero_client.utils.AppConstants;
+import com.metropolitan.rentero_client.utils.AuthUtil;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -52,14 +57,27 @@ public class AccountFragment extends Fragment {
 
         userLogOutBtn = view.findViewById(R.id.userLogOutBtn);
 
+        userLogOutBtn.setOnClickListener(v -> {
+            AuthUtil authUtil = new AuthUtil(getContext());
+            authUtil.removeToken();
+            Toast.makeText(getActivity().getApplicationContext(), "Odjavili ste se!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        });
+
         retrieveUser();
 
         return view;
     }
 
     private void retrieveUser() {
+
+        String token = new AuthUtil(getContext()).getToken();
+        JWT jwt = new JWT(token);
+
         UserService userService = retrofit.create(UserService.class);
-        Call<User> userResponse = userService.getById(3l);
+        Call<User> userResponse = userService.getByEmail(jwt.getSubject());
 
         userResponse.enqueue(new Callback<User>() {
             @Override
@@ -80,6 +98,13 @@ public class AccountFragment extends Fragment {
     }
 
     private void populateFields(User user) {
+        Picasso.get()
+                .load(user.getAvatarUrl())
+                .placeholder(R.drawable.user)
+                .resize(96, 96)
+                .centerCrop()
+                .into(userAvatar);
+
         userFullName.setText(user.getFullName());
         userEmail.setText(user.getEmail());
         userPhoneNumber.setText(user.getPhoneNumber());

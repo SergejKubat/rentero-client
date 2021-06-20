@@ -13,7 +13,7 @@ public interface UserService {
     @GET("customers")
     Call<List<User>> getAll();
 
-    @GET("customers/{customerId}")
-    Call<User> getById(@Path("customerId") long customerId);
+    @GET("customers/{email}")
+    Call<User> getByEmail(@Path("email") String email);
 
 }
