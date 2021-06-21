@@ -16,6 +16,7 @@ import com.metropolitan.rentero_client.adapter.ReservationAdapter;
 import com.metropolitan.rentero_client.model.Reservation;
 import com.metropolitan.rentero_client.service.ReservationService;
 import com.metropolitan.rentero_client.utils.AppConstants;
+import com.metropolitan.rentero_client.utils.AuthUtil;
 
 import java.util.List;
 
@@ -62,8 +63,10 @@ public class ReservationFragment extends Fragment {
     }
 
     void retrieveReservations() {
+        String token = new AuthUtil(getContext()).getToken();
+
         ReservationService reservationService = retrofit.create(ReservationService.class);
-        Call<List<Reservation>> reservationsResponse = reservationService.getAll();
+        Call<List<Reservation>> reservationsResponse = reservationService.getAll("Bearer " + token);
 
         reservationsResponse.enqueue(new Callback<List<Reservation>>() {
             @Override

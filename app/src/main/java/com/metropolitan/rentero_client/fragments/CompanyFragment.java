@@ -1,5 +1,6 @@
 package com.metropolitan.rentero_client.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.metropolitan.rentero_client.R;
+import com.metropolitan.rentero_client.activities.CarDetailsActivity;
+import com.metropolitan.rentero_client.activities.CompanyDetailsActivity;
 import com.metropolitan.rentero_client.adapter.CompanyAdapter;
 import com.metropolitan.rentero_client.model.Company;
 import com.metropolitan.rentero_client.service.CompanyService;
@@ -49,7 +52,9 @@ public class CompanyFragment extends Fragment {
         companyRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         companyAdapter = new CompanyAdapter(view.getContext(), company -> {
-            Toast.makeText(getActivity().getApplicationContext(), "Id je: " + company.getId(), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getActivity().getApplicationContext(), CompanyDetailsActivity.class);
+            intent.putExtra("companyId", company.getId());
+            startActivity(intent);
         });
         companyRecyclerView.setAdapter(companyAdapter);
 
