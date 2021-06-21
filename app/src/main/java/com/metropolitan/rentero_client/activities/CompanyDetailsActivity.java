@@ -1,12 +1,17 @@
 package com.metropolitan.rentero_client.activities;
 
 import com.metropolitan.rentero_client.R;
+import com.metropolitan.rentero_client.adapter.ReviewAdapter;
 import com.metropolitan.rentero_client.model.Company;
+import com.metropolitan.rentero_client.model.Review;
 import com.metropolitan.rentero_client.service.CompanyService;
+import com.metropolitan.rentero_client.service.ReviewService;
 import com.metropolitan.rentero_client.utils.AppConstants;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +33,10 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
     private ImageView companyImage;
     private TextView companyName, companyDescription, companyAddress, companyCity,
-            companyPhoneNumber, companyEmail;
+            companyPhoneNumber, companyEmail, companyAverageRating;
     private RatingBar companyRatingBar;
+    private RecyclerView reviewRecyclerView;
+    private ReviewAdapter reviewAdapter;
 
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(AppConstants.API_URL)
@@ -49,8 +58,15 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         companyCity = findViewById(R.id.companyCity);
         companyPhoneNumber = findViewById(R.id.companyPhoneNumber);
         companyEmail = findViewById(R.id.companyEmail);
+        companyAverageRating = findViewById(R.id.companyAverageRating);
 
         companyRatingBar = findViewById(R.id.companyRatingBar);
+
+        reviewRecyclerView = findViewById(R.id.reviewsList);
+        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        reviewAdapter = new ReviewAdapter(this);
+        reviewRecyclerView.setAdapter(reviewAdapter);
 
         retrieveCompany(companyId);
     }
@@ -65,6 +81,28 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Company company = response.body();
                     populateFields(company);
+
+                    ReviewService reviewService = retrofit.create(ReviewService.class);
+                    Call<List<Review>> reviewResponse = reviewService.getAll(company.getId());
+
+                    reviewResponse.enqueue(new Callback<List<Review>>() {
+                        @Override
+                        public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
+                            if (response.isSuccessful()) {
+                                List<Review> reviews = response.body();
+                                populateRatingBar(reviews);
+                                reviewAdapter.setTasks(reviews);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Greska!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Review>> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Greska!", Toast.LENGTH_LONG).show();
                 }
@@ -114,6 +152,15 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             emailIntent.setType("message/rfc822");
             startActivity(Intent.createChooser(emailIntent, "Pošaljite email"));
         });
+    }
+
+    private void populateRatingBar(List<Review> reviews) {
+        int numOfRatings = reviews.size();
+        int sumOfRatings = reviews.stream().mapToInt(Review::getMark).sum();
+        float averageRating = (float) sumOfRatings / numOfRatings;
+
+        companyAverageRating.setText(String.valueOf(averageRating));
+        companyRatingBar.setRating(averageRating);
     }
 
 }
