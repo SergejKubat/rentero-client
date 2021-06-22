@@ -8,7 +8,9 @@ import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     private ImageView carMainImage;
     private TextView carBrandAndModel, carDescription, carCapacity, carNumberOfDoors,
             carFuel, carPrice, carEngineSize, carHp, carGearStick, carYear;
+    private Button reservationBtn;
 
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(AppConstants.API_URL)
@@ -49,6 +52,14 @@ public class CarDetailsActivity extends AppCompatActivity {
         carHp = findViewById(R.id.carHp);
         carGearStick = findViewById(R.id.carGearStick);
         carYear = findViewById(R.id.carYear);
+
+        reservationBtn = findViewById(R.id.reservationBtn);
+
+        reservationBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ReservationActivity.class);
+            intent.putExtra("carId", carId);
+            startActivity(intent);
+        });
 
         retrieveCar(carId);
     }

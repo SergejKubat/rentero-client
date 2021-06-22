@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Renteroclient"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activities.ReservationActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -26,7 +27,8 @@
         <activity android:name=".activities.CarDetailsActivity" />
         <activity android:name=".activities.ContentActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.MapsActivity"
+        <activity
+            android:name=".activities.MapsActivity"
             android:label="Lokacija agencije"
             android:parentActivityName=".activities.CompanyDetailsActivity" />
         <activity
