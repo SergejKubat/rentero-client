@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/companyScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_editor_absoluteX="1dp"
@@ -215,6 +216,65 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reviewsList"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oceni kompaniju"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp" />
+
+            <RatingBar
+                android:id="@+id/addMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="1"
+                android:stepSize="1"
+                android:theme="@style/RatingBar" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addCommentInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/unesite_komentar"
+                app:counterEnabled="true"
+                app:counterMaxLength="255"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconDrawable="@drawable/ic_baseline_comment_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/addReviewBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oceni"
+                android:textSize="16sp"
+                android:layout_gravity="right" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

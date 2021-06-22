@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.metropolitan.rentero_client.R;
 import com.metropolitan.rentero_client.model.Review;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,6 +38,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
     public void onBindViewHolder(@NonNull ReviewAdapter.MyViewHolder holder, int position) {
         Review review = reviewsList.get(position);
 
+        Picasso.get()
+                .load(review.getCustomerAvatar())
+                .placeholder(R.drawable.user)
+                .resize(64, 64)
+                .centerCrop()
+                .into(holder.customerAvatar);
+        holder.customerName.setText(review.getCustomerName());
         holder.reviewDate.setText(review.getDateCreated());
         holder.reviewComment.setText(review.getComment());
         holder.reviewRatingBar.setRating(review.getMark());

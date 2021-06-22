@@ -3,7 +3,8 @@ package com.metropolitan.rentero_client.model;
 public class Review {
 
     private long id;
-    private long customerId;
+    private String customerName;
+    private String customerAvatar;
     private int mark;
     private String comment;
     private String dateCreated;
@@ -11,9 +12,10 @@ public class Review {
     public Review() {
     }
 
-    public Review(long id, long customerId, int mark, String comment, String dateCreated) {
+    public Review(long id, String customerName, String customerAvatar, int mark, String comment, String dateCreated) {
         this.id = id;
-        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAvatar = customerAvatar;
         this.mark = mark;
         this.comment = comment;
         this.dateCreated = dateCreated;
@@ -27,12 +29,20 @@ public class Review {
         this.id = id;
     }
 
-    public long getCustomerId() {
-        return customerId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerAvatar() {
+        return customerAvatar;
+    }
+
+    public void setCustomerAvatar(String customerAvatar) {
+        this.customerAvatar = customerAvatar;
     }
 
     public int getMark() {

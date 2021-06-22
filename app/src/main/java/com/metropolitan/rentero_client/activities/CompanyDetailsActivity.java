@@ -1,12 +1,15 @@
 package com.metropolitan.rentero_client.activities;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.metropolitan.rentero_client.R;
 import com.metropolitan.rentero_client.adapter.ReviewAdapter;
 import com.metropolitan.rentero_client.model.Company;
 import com.metropolitan.rentero_client.model.Review;
+import com.metropolitan.rentero_client.model.ReviewRequest;
 import com.metropolitan.rentero_client.service.CompanyService;
 import com.metropolitan.rentero_client.service.ReviewService;
 import com.metropolitan.rentero_client.utils.AppConstants;
+import com.metropolitan.rentero_client.utils.AuthUtil;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,12 +40,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CompanyDetailsActivity extends AppCompatActivity {
 
+    private ScrollView companyScrollView;
     private ImageView companyImage;
     private TextView companyName, companyDescription, companyAddress, companyCity,
             companyPhoneNumber, companyEmail, companyAverageRating;
-    private RatingBar companyRatingBar;
+    private RatingBar companyRatingBar, addMark;
     private RecyclerView reviewRecyclerView;
     private ReviewAdapter reviewAdapter;
+    private TextInputEditText addComment;
+    private Button addReviewBtn;
 
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(AppConstants.API_URL)
@@ -50,6 +62,8 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
         long companyId = getIntent().getLongExtra("companyId", 0);
 
+        companyScrollView = findViewById(R.id.companyScrollView);
+
         companyImage = findViewById(R.id.companyImage);
 
         companyName = findViewById(R.id.companyName);
@@ -61,6 +75,47 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         companyAverageRating = findViewById(R.id.companyAverageRating);
 
         companyRatingBar = findViewById(R.id.companyRatingBar);
+        addMark = findViewById(R.id.addMark);
+
+        addComment = findViewById(R.id.addComment);
+
+        addReviewBtn = findViewById(R.id.addReviewBtn);
+
+        addReviewBtn.setOnClickListener(v -> {
+            int mark = Math.round(addMark.getRating());
+            String comment = addComment.getText().toString();
+            ReviewRequest reviewRequest = new ReviewRequest(mark, comment);
+
+            String token = new AuthUtil(this).getToken();
+
+            ReviewService reviewService = retrofit.create(ReviewService.class);
+            Call<Review> reviewResponse = reviewService.create("Bearer " + token, companyId, reviewRequest);
+
+            reviewResponse.enqueue(new Callback<Review>() {
+                @Override
+                public void onResponse(Call<Review> call, Response<Review> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Uspešno ste ocenili kompaniju!", Toast.LENGTH_LONG).show();
+                        addMark.setRating(1);
+                        addComment.setText("");
+                        companyScrollView.fullScroll(ScrollView.FOCUS_UP);
+                        retrieveCompany(companyId);
+                    } else {
+                        try {
+                            JSONObject errorObject = new JSONObject(response.errorBody().string());
+                            Toast.makeText(getApplicationContext(), errorObject.getString("message"), Toast.LENGTH_LONG).show();
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Review> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        });
 
         reviewRecyclerView = findViewById(R.id.reviewsList);
         reviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
