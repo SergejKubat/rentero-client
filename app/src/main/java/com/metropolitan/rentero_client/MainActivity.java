@@ -23,21 +23,24 @@ public class MainActivity extends AppCompatActivity {
 
         if (firstStart) {
             Toast.makeText(getApplicationContext(), "Aplikacija se pokrenula prvi put!", Toast.LENGTH_LONG).show();
+
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("firstStart", false);
             editor.apply();
-        }
 
-        AuthUtil authUtil = new AuthUtil(getApplicationContext());
-
-        if (authUtil.isTokenExpired()) {
-            authUtil.removeToken();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
         } else {
-            Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
-            startActivity(intent);
+            AuthUtil authUtil = new AuthUtil(getApplicationContext());
+
+            if (authUtil.isTokenExpired()) {
+                authUtil.removeToken();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                startActivity(intent);
+            }
         }
+
         finish();
 
     }
