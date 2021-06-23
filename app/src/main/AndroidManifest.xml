@@ -17,14 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Renteroclient"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ReservationActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-        <activity android:name=".activities.CompanyDetailsActivity" />
-        <activity android:name=".activities.CarDetailsActivity" />
+        <activity android:name=".activities.CompanyDetailsActivity"
+            android:parentActivityName=".activities.ContentActivity"
+            android:label="Detalji o agenciji" />
+        <activity android:name=".activities.CarDetailsActivity"
+            android:parentActivityName=".activities.ContentActivity"
+            android:label="Detalji o automobilu" />
+        <activity android:name=".activities.ReservationActivity"
+            android:parentActivityName=".activities.CarDetailsActivity"
+            android:label="Rezervcija automobila" />
         <activity android:name=".activities.ContentActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity

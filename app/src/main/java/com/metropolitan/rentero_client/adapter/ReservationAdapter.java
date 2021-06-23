@@ -2,6 +2,7 @@ package com.metropolitan.rentero_client.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.metropolitan.rentero_client.R;
 import com.metropolitan.rentero_client.model.Reservation;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.MyViewHolder> {
@@ -32,6 +37,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         return new ReservationAdapter.MyViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ReservationAdapter.MyViewHolder holder, int position) {
         Reservation reservation = reservationsList.get(position);
@@ -54,10 +60,14 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             holder.reservationStatusText.setTextColor(color);
         }
 
-        holder.reservationStartDate.setText(reservation.getStartDate());
-        holder.reservationEndDate.setText(reservation.getEndDate());
-        holder.reservationPrice.setText(String.format("%.2f", reservation.getPrice()) + "€");
+        LocalDate startDate = LocalDate.parse(reservation.getStartDate());
+        LocalDate endDate = LocalDate.parse(reservation.getEndDate());
 
+        holder.reservationStartDate.setText(startDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
+        holder.reservationEndDate.setText(endDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
+        holder.carBrandAndModel.setText(reservation.getCarBrandAndModel());
+        holder.companyAddress.setText(reservation.getCompanyAddress());
+        holder.reservationPrice.setText(String.format("%.2f", reservation.getPrice()) + "€");
     }
 
     @Override
