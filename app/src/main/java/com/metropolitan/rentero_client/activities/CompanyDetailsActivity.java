@@ -214,7 +214,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         int sumOfRatings = reviews.stream().mapToInt(Review::getMark).sum();
         float averageRating = (float) sumOfRatings / numOfRatings;
 
-        companyAverageRating.setText(String.valueOf(averageRating));
+        companyAverageRating.setText(String.format("%.2f", averageRating));
         companyRatingBar.setRating(averageRating);
     }
 

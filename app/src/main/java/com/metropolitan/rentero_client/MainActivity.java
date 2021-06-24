@@ -28,17 +28,17 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("firstStart", false);
             editor.apply();
 
-        } else {
-            AuthUtil authUtil = new AuthUtil(getApplicationContext());
+        }
 
-            if (authUtil.isTokenExpired()) {
-                authUtil.removeToken();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
-                startActivity(intent);
-            }
+        AuthUtil authUtil = new AuthUtil(getApplicationContext());
+
+        if (authUtil.isTokenExpired()) {
+            authUtil.removeToken();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+            startActivity(intent);
         }
 
         finish();
